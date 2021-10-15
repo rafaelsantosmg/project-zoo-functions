@@ -1,35 +1,30 @@
-const data = require('../data/zoo_data');
-
-const { species } = data;
+const { species } = require('../data/zoo_data');
 
 const locations = species.reduce((acc, location) => (!acc.includes(location.location)
   ? acc.concat(location.location) : acc), []);
 
-const getNameAnimals = species.reduce((acc, specie) => specie.residents
-  .filter((resident) => acc.concat(resident.name)), []);
-
-console.log(getNameAnimals);
-
-const arrayAnimalsLocale = () => locations.reduce((acc, locale) => {
-  acc[locale] = species.reduce((accSpecie, specie) => (specie.location === locale
-    ? accSpecie.concat(specie.name) : accSpecie), []);
-  return acc;
-}, {});
-
-// const arrayNameAminals = (options) => locations.reduce((acc, locale) => {
-//   acc[locale] = Ob reduce((accSpecie, specie) => (options.includeNames === true
-//     ? accSpecie.concat(specie.name) : accSpecie), []);
-//   return acc;
-// }, {});
-
-function getAnimalMap(options) {
-  // seu código aqui
-  if (!options) return arrayAnimalsLocale();
-  if (options.sex === 'female' || (options.sex === 'female'
-    && options.sorted === true)) return arrayAnimalsLocale();
-  // return arrayNameAminals(options);
+function getAnimalsResidents(speciesLocale, options) {
+  const { sorted = false, sex = null } = options;
+  return speciesLocale.map((specie) => {
+    const animalsObj = {};
+    const animalsName = specie.residents
+      .filter((resident) => (sex ? resident.sex === sex : true))
+      .map((resident) => resident.name);
+    if (sorted) animalsName.sort();
+    animalsObj[specie.name] = animalsName;
+    return animalsObj;
+  });
 }
 
-console.log(getAnimalMap());
+function getAnimalMap(options = {}) {
+  const { includeNames = false } = options;
+  return locations.reduce((acc, region) => {
+    const speciesLocale = species.filter((specie) => specie.location === region);
+    const speciesName = speciesLocale.map((specie) => specie.name);
+    acc[region] = includeNames ? getAnimalsResidents(speciesLocale, options) : speciesName;
+    return acc;
+  }, {});
+}
 
+console.log(getAnimalMap({ includeNames: true }));
 module.exports = getAnimalMap;

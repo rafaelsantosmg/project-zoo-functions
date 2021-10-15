@@ -5,7 +5,6 @@ const { species } = data;
 const countResidents = (resident) => {
   const residents = species.reduce((acc, specie) =>
     (specie.name === resident.specie ? specie.residents : acc));
-  console.log(residents);
   if (!resident.sex) return residents.length;
   return residents.reduce((acc, currentSpecie) => (
     currentSpecie.sex === resident.sex ? acc + 1 : acc), 0);
