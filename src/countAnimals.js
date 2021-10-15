@@ -1,6 +1,4 @@
-const data = require('../data/zoo_data');
-
-const { species } = data;
+const { species } = require('../data/zoo_data');
 
 const countResidents = (resident) => {
   const residents = species.reduce((acc, specie) =>
@@ -11,16 +9,13 @@ const countResidents = (resident) => {
 };
 
 function countAnimals(animal) {
-  // seu código aqui
   if (animal === undefined) {
-    return species.species.reduce((acc, specie) => {
+    return species.reduce((acc, specie) => {
       acc[specie.name] = specie.residents.length;
       return acc;
     }, {});
   }
   return countResidents(animal);
 }
-
-countAnimals({ specie: 'bears', sex: 'male' });
 
 module.exports = countAnimals;
