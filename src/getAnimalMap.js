@@ -6,13 +6,12 @@ const locations = species.reduce((acc, location) => (!acc.includes(location.loca
 function getAnimalsResidents(speciesLocale, options) {
   const { sorted = false, sex = null } = options;
   return speciesLocale.map((specie) => {
-    const animalsObj = {};
-    const animalsName = specie.residents
-      .filter((resident) => (sex ? resident.sex === sex : true))
-      .map((resident) => resident.name);
-    if (sorted) animalsName.sort();
-    animalsObj[specie.name] = animalsName;
-    return animalsObj;
+    const getAnimalsLocale = {};
+    const getAnimalsName = specie.residents.filter((resident) => (sex
+      ? resident.sex === sex : true)).map((resident) => resident.name);
+    if (sorted) getAnimalsName.sort();
+    getAnimalsLocale[specie.name] = getAnimalsName;
+    return getAnimalsLocale;
   });
 }
 

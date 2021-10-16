@@ -6,7 +6,7 @@ function getOldestFromFirstSpecies(id) {
   return species.reduce((acc, specie) => (employeesRessibleId[0] === specie.id
     ? Object.values(specie.residents.reduce((accResident, resident) => (
       accResident.age > resident.age
-        ? accResident : resident))) : acc), []);
+        ? accResident : resident))) : acc), 0);
 }
 
 module.exports = getOldestFromFirstSpecies;
