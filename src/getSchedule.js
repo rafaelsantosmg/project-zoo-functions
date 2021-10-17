@@ -14,8 +14,6 @@ const allSchedule = daysWeekend.reduce((acc, day, index) => {
   return acc;
 }, {});
 
-const scheduleAnimal = (name) => species.find((specie) => specie.name === name).availability;
-
 const scheduleDays = (day) => Object.entries(allSchedule).reduce((acc, schedule) => {
   const [key, value] = schedule;
   if (key === day) acc[key] = value;
@@ -25,7 +23,7 @@ const scheduleDays = (day) => Object.entries(allSchedule).reduce((acc, schedule)
 function getSchedule(scheduleTarget) {
   if (!scheduleTarget || scheduleTarget === 'qualquercoisa') return allSchedule;
   if (daysWeekend.includes(scheduleTarget)) return scheduleDays(scheduleTarget);
-  return scheduleAnimal(scheduleTarget);
+  return species.find((specie) => specie.name.includes(scheduleTarget)).availability;
 }
 
 module.exports = getSchedule;
