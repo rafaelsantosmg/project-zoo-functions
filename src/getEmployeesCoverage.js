@@ -1,20 +1,28 @@
-const { species, employees } = require('../data/zoo_data');
+const {
+  species,
+  employees,
+} = require('../data/zoo_data');
 
-const getSpecies = (employee) => species.reduce((accSpecie, specie) => (
-  employee.responsibleFor.includes(specie.id) ? accSpecie.concat(specie.name) : accSpecie), []);
+const getSpecies = (responsible) => species
+  .reduce((accSpecie, specie) => (responsible
+    .includes(specie.id) ? accSpecie.concat(specie.name) : accSpecie), []);
 
-const getLocations = (employee) => species.reduce((accSpecie, specie) => (
-  employee.responsibleFor.includes(specie.id) ? accSpecie.concat(specie.location) : accSpecie), []);
+const getLocations = (responsible) => species
+  .reduce((accSpecie, specie) => (responsible
+    .includes(specie.id) ? accSpecie.concat(specie.location) : accSpecie), []);
 
 const getAllEmployees = () => employees
   .reduce((acc, employee) => acc.concat({
     id: employee.id,
     fullName: `${employee.firstName} ${employee.lastName}`,
-    species: getSpecies(employee),
-    locations: getLocations(employee),
+    species: getSpecies(employee.responsibleFor),
+    locations: getLocations(employee.responsibleFor),
   }), []);
 
-const getEmployeesByNameId = ({ name = null, id = null }) => getAllEmployees().find((employee) => {
+const getEmployeesByNameId = ({
+  name,
+  id,
+}) => getAllEmployees().find((employee) => {
   const [firstname, lastname] = employee.fullName.split(' ');
   if (firstname === name || lastname === name || employee.id === id) {
     return employee;

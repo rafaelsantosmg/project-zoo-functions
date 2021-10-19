@@ -4,11 +4,12 @@ const locations = species.reduce((acc, location) => (!acc.includes(location.loca
   ? acc.concat(location.location) : acc), []);
 
 function getAnimalsResidents(speciesLocale, options) {
-  const { sorted = false, sex = null } = options;
+  const { sorted = false, sex = undefined } = options;
   return speciesLocale.map((specie) => {
     const getAnimalsLocale = {};
-    const getAnimalsName = specie.residents.filter((resident) => (sex
-      ? resident.sex === sex : true)).map((resident) => resident.name);
+    const getAnimalsName = specie.residents.filter((resident) => (
+      sex ? resident.sex === sex : true)).map((resident) => resident.name);
+    console.log(getAnimalsName);
     if (sorted) getAnimalsName.sort();
     getAnimalsLocale[specie.name] = getAnimalsName;
     return getAnimalsLocale;
